@@ -1,11 +1,11 @@
 ﻿using RoR2.ContentManagement;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal class ContentPacks : IContentPackProvider
     {
         internal ContentPack contentPack = new ContentPack();
-        public string identifier => HenryPlugin.MODUID;
+        public string identifier => SlimeyPlugin.MODUID;
 
         public void Initialize()
         {
@@ -19,7 +19,7 @@ namespace HenryMod.Modules
 
         public System.Collections.IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args)
         {
-            this.contentPack.identifier = this.identifier;
+            contentPack.identifier = identifier;
             contentPack.bodyPrefabs.Add(Prefabs.bodyPrefabs.ToArray());
             contentPack.buffDefs.Add(Buffs.buffDefs.ToArray());
             contentPack.effectDefs.Add(Assets.effectDefs.ToArray());
@@ -38,7 +38,7 @@ namespace HenryMod.Modules
 
         public System.Collections.IEnumerator GenerateContentPackAsync(GetContentPackAsyncArgs args)
         {
-            ContentPack.Copy(this.contentPack, args.output);
+            ContentPack.Copy(contentPack, args.output);
             args.ReportProgress(1f);
             yield break;
         }

@@ -3,7 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HenryMod.SkillStates
+namespace SlimeyMod.SkillStates
 {
     public class Roll : BaseSkillState
     {
@@ -22,68 +22,68 @@ namespace HenryMod.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.animator = base.GetModelAnimator();
+            animator = base.GetModelAnimator();
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
-                this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+                forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
             }
 
-            Vector3 rhs = base.characterDirection ? base.characterDirection.forward : this.forwardDirection;
+            Vector3 rhs = base.characterDirection ? base.characterDirection.forward : forwardDirection;
             Vector3 rhs2 = Vector3.Cross(Vector3.up, rhs);
 
-            float num = Vector3.Dot(this.forwardDirection, rhs);
-            float num2 = Vector3.Dot(this.forwardDirection, rhs2);
+            float num = Vector3.Dot(forwardDirection, rhs);
+            float num2 = Vector3.Dot(forwardDirection, rhs2);
 
-            this.RecalculateRollSpeed();
+            RecalculateRollSpeed();
 
             if (base.characterMotor && base.characterDirection)
             {
                 base.characterMotor.velocity.y = 0f;
-                base.characterMotor.velocity = this.forwardDirection * this.rollSpeed;
+                base.characterMotor.velocity = forwardDirection * rollSpeed;
             }
 
             Vector3 b = base.characterMotor ? base.characterMotor.velocity : Vector3.zero;
-            this.previousPosition = base.transform.position - b;
+            previousPosition = base.transform.position - b;
 
             base.PlayAnimation("FullBody, Override", "Roll", "Roll.playbackRate", Roll.duration);
             Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
 
             if (NetworkServer.active)
             {
-                base.characterBody.AddTimedBuff(Modules.Buffs.armorBuff, 3f * Roll.duration);
+                base.characterBody.AddTimedBuff(HenryModules.Buffs.armorBuff, 3f * Roll.duration);
                 base.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * Roll.duration);
             }
         }
 
         private void RecalculateRollSpeed()
         {
-            this.rollSpeed = this.moveSpeedStat * Mathf.Lerp(Roll.initialSpeedCoefficient, Roll.finalSpeedCoefficient, base.fixedAge / Roll.duration);
+            rollSpeed = moveSpeedStat * Mathf.Lerp(Roll.initialSpeedCoefficient, Roll.finalSpeedCoefficient, base.fixedAge / Roll.duration);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            this.RecalculateRollSpeed();
+            RecalculateRollSpeed();
 
-            if (base.characterDirection) base.characterDirection.forward = this.forwardDirection;
+            if (base.characterDirection) base.characterDirection.forward = forwardDirection;
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(Roll.dodgeFOV, 60f, base.fixedAge / Roll.duration);
 
-            Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
+            Vector3 normalized = (base.transform.position - previousPosition).normalized;
             if (base.characterMotor && base.characterDirection && normalized != Vector3.zero)
             {
-                Vector3 vector = normalized * this.rollSpeed;
-                float d = Mathf.Max(Vector3.Dot(vector, this.forwardDirection), 0f);
-                vector = this.forwardDirection * d;
+                Vector3 vector = normalized * rollSpeed;
+                float d = Mathf.Max(Vector3.Dot(vector, forwardDirection), 0f);
+                vector = forwardDirection * d;
                 vector.y = 0f;
 
                 base.characterMotor.velocity = vector;
             }
-            this.previousPosition = base.transform.position;
+            previousPosition = base.transform.position;
 
             if (base.isAuthority && base.fixedAge >= Roll.duration)
             {
-                this.outer.SetNextStateToMain();
+                outer.SetNextStateToMain();
                 return;
             }
         }
@@ -99,13 +99,13 @@ namespace HenryMod.SkillStates
         public override void OnSerialize(NetworkWriter writer)
         {
             base.OnSerialize(writer);
-            writer.Write(this.forwardDirection);
+            writer.Write(forwardDirection);
         }
 
         public override void OnDeserialize(NetworkReader reader)
         {
             base.OnDeserialize(reader);
-            this.forwardDirection = reader.ReadVector3();
+            forwardDirection = reader.ReadVector3();
         }
     }
 }

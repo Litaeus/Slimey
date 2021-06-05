@@ -4,7 +4,7 @@ using RoR2.Projectile;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal static class Projectiles
     {
@@ -20,7 +20,7 @@ namespace HenryMod.Modules
 
         internal static void AddProjectile(GameObject projectileToAdd)
         {
-            Modules.Prefabs.projectilePrefabs.Add(projectileToAdd);
+            HenryModules.Prefabs.projectilePrefabs.Add(projectileToAdd);
         }
 
         private static void CreateBomb()
@@ -33,13 +33,13 @@ namespace HenryMod.Modules
             bombImpactExplosion.blastRadius = 16f;
             bombImpactExplosion.destroyOnEnemy = true;
             bombImpactExplosion.lifetime = 12f;
-            bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
-            //bombImpactExplosion.lifetimeExpiredSound = Modules.Assets.CreateNetworkSoundEventDef("HenryBombExplosion");
+            bombImpactExplosion.impactEffect = HenryModules.Assets.bombExplosionEffect;
+            //bombImpactExplosion.lifetimeExpiredSound = HenryModules.Assets.CreateNetworkSoundEventDef("HenryBombExplosion");
             bombImpactExplosion.timerAfterImpact = true;
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
             ProjectileController bombController = bombPrefab.GetComponent<ProjectileController>();
-            if (Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("HenryBombGhost") != null) bombController.ghostPrefab = CreateGhostPrefab("HenryBombGhost");
+            if (HenryModules.Assets.mainAssetBundle.LoadAsset<GameObject>("HenryBombGhost") != null) bombController.ghostPrefab = CreateGhostPrefab("HenryBombGhost");
             bombController.startSound = "";
         }
 
@@ -70,11 +70,11 @@ namespace HenryMod.Modules
 
         private static GameObject CreateGhostPrefab(string ghostName)
         {
-            GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
+            GameObject ghostPrefab = HenryModules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
             if (!ghostPrefab.GetComponent<NetworkIdentity>()) ghostPrefab.AddComponent<NetworkIdentity>();
             if (!ghostPrefab.GetComponent<ProjectileGhostController>()) ghostPrefab.AddComponent<ProjectileGhostController>();
 
-            Modules.Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
+            HenryModules.Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
 
             return ghostPrefab;
         }

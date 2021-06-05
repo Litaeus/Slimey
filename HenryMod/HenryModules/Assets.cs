@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using R2API;
+﻿using R2API;
+using RoR2;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
-using RoR2;
-using System.IO;
-using System.Collections.Generic;
-using RoR2.UI;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal static class Assets
     {
@@ -52,7 +51,7 @@ namespace HenryMod.Modules
         {
             if (mainAssetBundle == null)
             {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HenryMod." + assetbundleName))
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SlimeyMod." + assetbundleName))
                 {
                     mainAssetBundle = AssetBundle.LoadFromStream(assetStream);
                 }
@@ -63,7 +62,7 @@ namespace HenryMod.Modules
 
         internal static void LoadSoundbank()
         {
-            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("HenryMod.HenryBank.bnk"))
+            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("SlimeyMod.HenryBank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);

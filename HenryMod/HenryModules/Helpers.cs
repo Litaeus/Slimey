@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal static class Helpers
     {
@@ -21,7 +21,10 @@ namespace HenryMod.Modules
             return array;
         }
 
-        public static Func<T[], T[]> AppendDel<T>(List<T> list) => (r) => Append(ref r, list);
+        public static Func<T[], T[]> AppendDel<T>(List<T> list)
+        {
+            return (r) => Append(ref r, list);
+        }
     }
 
     internal static class ArrayHelper
@@ -35,6 +38,9 @@ namespace HenryMod.Modules
             return array;
         }
 
-        public static Func<T[], T[]> AppendDel<T>(List<T> list) => (r) => Append(ref r, list);
+        public static Func<T[], T[]> AppendDel<T>(List<T> list)
+        {
+            return (r) => Append(ref r, list);
+        }
     }
 }

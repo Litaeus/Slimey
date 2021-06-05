@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HenryMod.Modules.Survivors
+namespace SlimeyMod.HenryModules.Survivors
 {
-    internal class MyCharacter : SurvivorBase
+    internal class SlimeySurvivor : SurvivorBase
     {
         internal override string bodyName { get; set; } = "Slimey";
 
@@ -23,25 +23,25 @@ namespace HenryMod.Modules.Survivors
             armor = 20f,
             armorGrowth = 0f,
             bodyName = "Slimey",
-            bodyNameToken = HenryPlugin.developerPrefix + "_SLIMEY_BODY_NAME",
+            bodyNameToken = SlimeyPlugin.developerPrefix + "_SLIMEY_BODY_NAME",
             bodyColor = Color.grey,
-            characterPortrait = Modules.Assets.LoadCharacterIcon("Slimey"),
-            crosshair = Modules.Assets.LoadCrosshair("Standard"),
+            characterPortrait = HenryModules.Assets.LoadCharacterIcon("Slimey"),
+            crosshair = HenryModules.Assets.LoadCrosshair("Standard"),
             damage = 12f,
             healthGrowth = 33f,
             healthRegen = 1.5f,
             jumpCount = 1,
             maxHealth = 110f,
-            subtitleNameToken = HenryPlugin.developerPrefix + "_SLIMEY_BODY_SUBTITLE",
+            subtitleNameToken = SlimeyPlugin.developerPrefix + "_SLIMEY_BODY_SUBTITLE",
             podPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod")
         };
 
-        internal static Material slimeyMat = Modules.Assets.CreateMaterial("matSlime");
+        internal static Material slimeyMat = HenryModules.Assets.CreateMaterial("matSlime");
         internal override int mainRendererIndex { get; set; } = 0;
 
         internal override CustomRendererInfo[] customRendererInfos { get; set; } = new CustomRendererInfo[] {
                 new CustomRendererInfo
-                
+
                 {
                     childName = "SlimeyBody",
                     material = slimeyMat
@@ -63,7 +63,7 @@ namespace HenryMod.Modules.Survivors
 
         internal override void InitializeUnlockables()
         {
-            masterySkinUnlockableDef = Modules.Unlockables.AddUnlockable<Achievements.MasteryAchievement>(true);
+            masterySkinUnlockableDef = HenryModules.Unlockables.AddUnlockable<Achievements.MasteryAchievement>(true);
         }
 
         internal override void InitializeDoppelganger()
@@ -77,27 +77,27 @@ namespace HenryMod.Modules.Survivors
             GameObject model = childLocator.gameObject;
 
             Transform hitboxTransform = childLocator.FindChild("MainHurtbox");
-            Modules.Prefabs.SetupHitbox(model, hitboxTransform, "MainHurtbox");
+            HenryModules.Prefabs.SetupHitbox(model, hitboxTransform, "MainHurtbox");
         }
 
         internal override void InitializeSkills()
         {
-            Modules.Skills.CreateSkillFamilies(bodyPrefab);
+            HenryModules.Skills.CreateSkillFamilies(bodyPrefab);
 
-            string prefix = HenryPlugin.developerPrefix;
+            string prefix = SlimeyPlugin.developerPrefix;
 
             #region Primary
-            Modules.Skills.AddPrimarySkill(bodyPrefab, Modules.Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)), "Weapon", prefix + "_HENRY_BODY_PRIMARY_SLASH_NAME", prefix + "_HENRY_BODY_PRIMARY_SLASH_DESCRIPTION", Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"), true));
+            HenryModules.Skills.AddPrimarySkill(bodyPrefab, HenryModules.Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)), "Weapon", prefix + "_HENRY_BODY_PRIMARY_SLASH_NAME", prefix + "_HENRY_BODY_PRIMARY_SLASH_DESCRIPTION", HenryModules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"), true));
             Skills.AddPrimarySkill(bodyPrefab, Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.Slimey.Slimeshot)), "Weapon", prefix + "_SLIMEY_SLIMESHOT_NAME", prefix + "_SLIMEY_SLIMESHOT_DESC", SkillStates.Slimey.Slimeshot.skillIconSprite, true));
             #endregion
 
             #region Secondary
-            SkillDef shootSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef shootSkillDef = HenryModules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_SECONDARY_GUN_NAME",
                 skillNameToken = prefix + "_HENRY_BODY_SECONDARY_GUN_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_SECONDARY_GUN_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                skillIcon = HenryModules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
                 activationStateMachineName = "Slide",
                 baseMaxStock = 1,
@@ -117,16 +117,16 @@ namespace HenryMod.Modules.Survivors
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
 
-            Modules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
+            HenryModules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
             #endregion
 
             #region Utility
-            SkillDef rollSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef rollSkillDef = HenryModules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_UTILITY_ROLL_NAME",
                 skillNameToken = prefix + "_HENRY_BODY_UTILITY_ROLL_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_UTILITY_ROLL_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                skillIcon = HenryModules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Roll)),
                 activationStateMachineName = "Body",
                 baseMaxStock = 1,
@@ -145,16 +145,16 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1
             });
 
-            Modules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
+            HenryModules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
             #endregion
 
             #region Special
-            SkillDef bombSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef bombSkillDef = HenryModules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_SPECIAL_BOMB_NAME",
                 skillNameToken = prefix + "_HENRY_BODY_SPECIAL_BOMB_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_BOMB_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                skillIcon = HenryModules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
                 activationStateMachineName = "Slide",
                 baseMaxStock = 1,
@@ -173,7 +173,7 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1
             });
 
-            Modules.Skills.AddSpecialSkills(bodyPrefab, bombSkillDef);
+            HenryModules.Skills.AddSpecialSkills(bodyPrefab, bombSkillDef);
             #endregion
         }
 
@@ -192,7 +192,7 @@ namespace HenryMod.Modules.Survivors
             List<SkinDef> skins = new List<SkinDef>();
 
             #region DefaultSkin
-            SkinDef defaultSkin = Modules.Skins.CreateSkinDef(HenryPlugin.developerPrefix + "_SLIMEY_BODY_DEFAULT_SKIN_NAME",
+            SkinDef defaultSkin = HenryModules.Skins.CreateSkinDef(SlimeyPlugin.developerPrefix + "_SLIMEY_BODY_DEFAULT_SKIN_NAME",
                 Assets.mainAssetBundle.LoadAsset<Sprite>("texSlime"),
                 defaultRenderers,
                 mainRenderer,
@@ -201,9 +201,9 @@ namespace HenryMod.Modules.Survivors
             defaultSkin.meshReplacements = new SkinDef.MeshReplacement[]
             {
                 new SkinDef.MeshReplacement
-                
+
                 {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshSlimey"),
+                    mesh = HenryModules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshSlimey"),
                     renderer = defaultRenderers[instance.mainRendererIndex].renderer
                 }
             };
@@ -212,37 +212,37 @@ namespace HenryMod.Modules.Survivors
             #endregion
 
             #region MasterySkin
-          //  Material masteryMat = Modules.Assets.CreateMaterial("matHenryAlt");
-          //  CharacterModel.RendererInfo[] masteryRendererInfos = SkinRendererInfos(defaultRenderers, new Material[]
-          //  {
-          //      masteryMat,
-          //      masteryMat,
-          //      masteryMat,
-          //      masteryMat
-          //  });
-          //
-          //  SkinDef masterySkin = Modules.Skins.CreateSkinDef(HenryPlugin.developerPrefix + "_SLIMEY_BODY_MASTERY_SKIN_NAME",
-          //      Assets.mainAssetBundle.LoadAsset<Sprite>("texMasteryAchievement"),
-          //      masteryRendererInfos,
-          //      mainRenderer,
-          //      model,
-          //      masterySkinUnlockableDef);
-          //
-          //  masterySkin.meshReplacements = new SkinDef.MeshReplacement[]
-          //  {
-          //      new SkinDef.MeshReplacement
-          //      {
-          //          mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenrySwordAlt"),
-          //          renderer = defaultRenderers[0].renderer
-          //      },
-          //      new SkinDef.MeshReplacement
-          //      {
-          //          mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenryAlt"),
-          //          renderer = defaultRenderers[instance.mainRendererIndex].renderer
-          //      }
-          //  };
-          //
-          //  skins.Add(masterySkin);
+            //  Material masteryMat = HenryModules.Assets.CreateMaterial("matHenryAlt");
+            //  CharacterModel.RendererInfo[] masteryRendererInfos = SkinRendererInfos(defaultRenderers, new Material[]
+            //  {
+            //      masteryMat,
+            //      masteryMat,
+            //      masteryMat,
+            //      masteryMat
+            //  });
+            //
+            //  SkinDef masterySkin = HenryModules.Skins.CreateSkinDef(HenryPlugin.developerPrefix + "_SLIMEY_BODY_MASTERY_SKIN_NAME",
+            //      Assets.mainAssetBundle.LoadAsset<Sprite>("texMasteryAchievement"),
+            //      masteryRendererInfos,
+            //      mainRenderer,
+            //      model,
+            //      masterySkinUnlockableDef);
+            //
+            //  masterySkin.meshReplacements = new SkinDef.MeshReplacement[]
+            //  {
+            //      new SkinDef.MeshReplacement
+            //      {
+            //          mesh = HenryModules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenrySwordAlt"),
+            //          renderer = defaultRenderers[0].renderer
+            //      },
+            //      new SkinDef.MeshReplacement
+            //      {
+            //          mesh = HenryModules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenryAlt"),
+            //          renderer = defaultRenderers[instance.mainRendererIndex].renderer
+            //      }
+            //  };
+            //
+            //  skins.Add(masterySkin);
             #endregion
 
             skinController.skins = skins.ToArray();

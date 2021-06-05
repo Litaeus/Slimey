@@ -1,9 +1,9 @@
 ﻿using EntityStates;
-using HenryMod.Modules;
 using RoR2;
+using SlimeyMod.HenryModules;
 using UnityEngine;
 
-namespace HenryMod.SkillStates.Slimey
+namespace SlimeyMod.SkillStates.Slimey
 {
     public class Slimeshot : BaseSkillState
     {

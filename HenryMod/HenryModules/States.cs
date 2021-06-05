@@ -1,9 +1,9 @@
-﻿using HenryMod.SkillStates;
-using HenryMod.SkillStates.BaseStates;
-using System.Collections.Generic;
+﻿using SlimeyMod.SkillStates;
+using SlimeyMod.SkillStates.BaseStates;
 using System;
+using System.Collections.Generic;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     public static class States
     {

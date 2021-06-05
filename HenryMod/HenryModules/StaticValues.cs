@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal static class StaticValues
     {

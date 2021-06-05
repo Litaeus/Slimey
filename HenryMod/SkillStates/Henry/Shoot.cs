@@ -2,11 +2,11 @@
 using RoR2;
 using UnityEngine;
 
-namespace HenryMod.SkillStates
+namespace SlimeyMod.SkillStates
 {
     public class Shoot : BaseSkillState
     {
-        public static float damageCoefficient = Modules.StaticValues.gunDamageCoefficient;
+        public static float damageCoefficient = HenryModules.StaticValues.gunDamageCoefficient;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
@@ -22,10 +22,10 @@ namespace HenryMod.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = Shoot.baseDuration / this.attackSpeedStat;
-            this.fireTime = 0.2f * this.duration;
+            duration = Shoot.baseDuration / attackSpeedStat;
+            fireTime = 0.2f * duration;
             base.characterBody.SetAimTimer(2f);
-            this.muzzleString = "Muzzle";
+            muzzleString = "Muzzle";
 
             base.PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
         }
@@ -37,12 +37,12 @@ namespace HenryMod.SkillStates
 
         private void Fire()
         {
-            if (!this.hasFired)
+            if (!hasFired)
             {
-                this.hasFired = true;
+                hasFired = true;
 
                 base.characterBody.AddSpreadBloom(1.5f);
-                EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, muzzleString, false);
                 Util.PlaySound("HenryShootPistol", base.gameObject);
 
                 if (base.isAuthority)
@@ -55,7 +55,7 @@ namespace HenryMod.SkillStates
                         bulletCount = 1,
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
-                        damage = Shoot.damageCoefficient * this.damageStat,
+                        damage = Shoot.damageCoefficient * damageStat,
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.Generic,
                         falloffModel = BulletAttack.FalloffModel.DefaultBullet,
@@ -88,14 +88,14 @@ namespace HenryMod.SkillStates
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= this.fireTime)
+            if (base.fixedAge >= fireTime)
             {
-                this.Fire();
+                Fire();
             }
 
-            if (base.fixedAge >= this.duration && base.isAuthority)
+            if (base.fixedAge >= duration && base.isAuthority)
             {
-                this.outer.SetNextStateToMain();
+                outer.SetNextStateToMain();
                 return;
             }
         }

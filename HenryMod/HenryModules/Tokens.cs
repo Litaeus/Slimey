@@ -1,14 +1,14 @@
 ﻿using R2API;
 using System;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal static class Tokens
     {
         internal static void AddTokens()
         {
             #region Henry
-            string prefix = HenryPlugin.developerPrefix + "_SLIMEY_BODY_";
+            string prefix = SlimeyPlugin.developerPrefix + "_SLIMEY_BODY_";
 
             string desc = "Henry is a skilled fighter who makes use of a wide arsenal of weaponry to take down his foes.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Sword is a good all-rounder while Boxing Gloves are better for laying a beatdown on more powerful foes." + Environment.NewLine + Environment.NewLine;

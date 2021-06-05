@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     public static class Buffs
     {
