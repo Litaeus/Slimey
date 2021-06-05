@@ -3,7 +3,7 @@ using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
 
-namespace HenryMod.SkillStates
+namespace SlimeyMod.SkillStates
 {
     public class ThrowBomb : BaseSkillState
     {
@@ -20,12 +20,12 @@ namespace HenryMod.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = ThrowBomb.baseDuration / this.attackSpeedStat;
-            this.fireTime = 0.35f * this.duration;
+            duration = ThrowBomb.baseDuration / attackSpeedStat;
+            fireTime = 0.35f * duration;
             base.characterBody.SetAimTimer(2f);
-            this.animator = base.GetModelAnimator();
+            animator = base.GetModelAnimator();
 
-            base.PlayAnimation("Gesture, Override", "ThrowBomb", "ThrowBomb.playbackRate", this.duration);
+            base.PlayAnimation("Gesture, Override", "ThrowBomb", "ThrowBomb.playbackRate", duration);
         }
 
         public override void OnExit()
@@ -35,24 +35,24 @@ namespace HenryMod.SkillStates
 
         private void Fire()
         {
-            if (!this.hasFired)
+            if (!hasFired)
             {
-                this.hasFired = true;
+                hasFired = true;
                 Util.PlaySound("HenryBombThrow", base.gameObject);
 
                 if (base.isAuthority)
                 {
                     Ray aimRay = base.GetAimRay();
 
-                    ProjectileManager.instance.FireProjectile(Modules.Projectiles.bombPrefab, 
-                        aimRay.origin, 
-                        Util.QuaternionSafeLookRotation(aimRay.direction), 
-                        base.gameObject, 
-                        ThrowBomb.damageCoefficient * this.damageStat, 
-                        4000f, 
-                        base.RollCrit(), 
-                        DamageColorIndex.Default, 
-                        null, 
+                    ProjectileManager.instance.FireProjectile(HenryModules.Projectiles.bombPrefab,
+                        aimRay.origin,
+                        Util.QuaternionSafeLookRotation(aimRay.direction),
+                        base.gameObject,
+                        ThrowBomb.damageCoefficient * damageStat,
+                        4000f,
+                        base.RollCrit(),
+                        DamageColorIndex.Default,
+                        null,
                         ThrowBomb.throwForce);
                 }
             }
@@ -62,14 +62,14 @@ namespace HenryMod.SkillStates
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= this.fireTime)
+            if (base.fixedAge >= fireTime)
             {
-                this.Fire();
+                Fire();
             }
 
-            if (base.fixedAge >= this.duration && base.isAuthority)
+            if (base.fixedAge >= duration && base.isAuthority)
             {
-                this.outer.SetNextStateToMain();
+                outer.SetNextStateToMain();
                 return;
             }
         }

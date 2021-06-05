@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     internal static class Unlockables
     {
@@ -82,11 +82,17 @@ where TDelegate : Delegate
             return cursor;
         }
         public static ILCursor CallDel_<TDelegate>(this ILCursor cursor, TDelegate target)
-            where TDelegate : Delegate => cursor.CallDel_(target, out _);
+            where TDelegate : Delegate
+        {
+            return cursor.CallDel_(target, out _);
+        }
 
-        private static void Init_Il(ILContext il) => new ILCursor(il)
-    .GotoNext(MoveType.AfterLabel, x => x.MatchCallOrCallvirt(typeof(UnlockableCatalog), nameof(UnlockableCatalog.SetUnlockableDefs)))
-    .CallDel_(ArrayHelper.AppendDel(unlockableDefs));
+        private static void Init_Il(ILContext il)
+        {
+            new ILCursor(il)
+.GotoNext(MoveType.AfterLabel, x => x.MatchCallOrCallvirt(typeof(UnlockableCatalog), nameof(UnlockableCatalog.SetUnlockableDefs)))
+.CallDel_(ArrayHelper.AppendDel(unlockableDefs));
+        }
 
         private static void CollectAchievementDefs(ILContext il)
         {
@@ -144,12 +150,12 @@ where TDelegate : Delegate
         #region Implementation
         public void Revoke()
         {
-            if (base.userProfile.HasAchievement(this.AchievementIdentifier))
+            if (base.userProfile.HasAchievement(AchievementIdentifier))
             {
-                base.userProfile.RevokeAchievement(this.AchievementIdentifier);
+                base.userProfile.RevokeAchievement(AchievementIdentifier);
             }
 
-            base.userProfile.RevokeUnlockable(UnlockableCatalog.GetUnlockableDef(this.UnlockableIdentifier));
+            base.userProfile.RevokeUnlockable(UnlockableCatalog.GetUnlockableDef(UnlockableIdentifier));
         }
         #endregion
 
@@ -166,7 +172,11 @@ where TDelegate : Delegate
         #endregion
 
         #region Virtuals
-        public override void OnGranted() => base.OnGranted();
+        public override void OnGranted()
+        {
+            base.OnGranted();
+        }
+
         public override void OnInstall()
         {
             base.OnInstall();
@@ -175,14 +185,26 @@ where TDelegate : Delegate
         {
             base.OnUninstall();
         }
-        public override Single ProgressForAchievement() => base.ProgressForAchievement();
+        public override Single ProgressForAchievement()
+        {
+            return base.ProgressForAchievement();
+        }
+
         public override BodyIndex LookUpRequiredBodyIndex()
         {
             return base.LookUpRequiredBodyIndex();
         }
-        public override void OnBodyRequirementBroken() => base.OnBodyRequirementBroken();
-        public override void OnBodyRequirementMet() => base.OnBodyRequirementMet();
-        public override bool wantsBodyCallbacks { get => base.wantsBodyCallbacks; }
+        public override void OnBodyRequirementBroken()
+        {
+            base.OnBodyRequirementBroken();
+        }
+
+        public override void OnBodyRequirementMet()
+        {
+            base.OnBodyRequirementMet();
+        }
+
+        public override bool wantsBodyCallbacks => base.wantsBodyCallbacks;
         #endregion
     }
 }

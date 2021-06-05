@@ -3,7 +3,7 @@ using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HenryMod.Modules
+namespace SlimeyMod.HenryModules
 {
     // module for creating body prefabs and whatnot
     // recommended to simply avoid touching this unless you REALLY need to
@@ -20,10 +20,10 @@ namespace HenryMod.Modules
 
         internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string namePrefix, UnlockableDef unlockableDef, float sortPosition)
         {
-            string fullNameString = HenryPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME";
-            string fullDescString = HenryPlugin.developerPrefix + "_" + namePrefix + "_BODY_DESCRIPTION";
-            string fullOutroString = HenryPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR";
-            string fullFailureString = HenryPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FAILURE";
+            string fullNameString = SlimeyPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME";
+            string fullDescString = SlimeyPlugin.developerPrefix + "_" + namePrefix + "_BODY_DESCRIPTION";
+            string fullOutroString = SlimeyPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR";
+            string fullFailureString = SlimeyPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FAILURE";
 
             SurvivorDef survivorDef = ScriptableObject.CreateInstance<SurvivorDef>();
             survivorDef.bodyPrefab = bodyPrefab;
@@ -60,7 +60,7 @@ namespace HenryMod.Modules
 
             model.AddComponent<CharacterModel>().baseRendererInfos = prefab.GetComponentInChildren<CharacterModel>().baseRendererInfos;
 
-            Modules.Assets.ConvertAllRenderersToHopooShader(model);
+            HenryModules.Assets.ConvertAllRenderersToHopooShader(model);
 
             return model.gameObject;
         }
@@ -194,17 +194,17 @@ namespace HenryMod.Modules
 
         private static GameObject CreateModel(GameObject main, string modelName)
         {
-            HenryPlugin.DestroyImmediate(main.transform.Find("ModelBase").gameObject);
-            HenryPlugin.DestroyImmediate(main.transform.Find("CameraPivot").gameObject);
-            HenryPlugin.DestroyImmediate(main.transform.Find("AimOrigin").gameObject);
+            SlimeyPlugin.DestroyImmediate(main.transform.Find("ModelBase").gameObject);
+            SlimeyPlugin.DestroyImmediate(main.transform.Find("CameraPivot").gameObject);
+            SlimeyPlugin.DestroyImmediate(main.transform.Find("AimOrigin").gameObject);
 
-            if (Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(modelName) == null)
+            if (HenryModules.Assets.mainAssetBundle.LoadAsset<GameObject>(modelName) == null)
             {
                 Debug.LogError("Trying to load a null model- check to see if the name in your code matches the name of the object in Unity");
                 return null;
             }
 
-            return GameObject.Instantiate(Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(modelName));
+            return GameObject.Instantiate(HenryModules.Assets.mainAssetBundle.LoadAsset<GameObject>(modelName));
         }
 
         internal static void SetupCharacterModel(GameObject prefab, CustomRendererInfo[] rendererInfo, int mainRendererIndex)

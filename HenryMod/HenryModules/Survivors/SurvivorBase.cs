@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HenryMod.Modules.Survivors
+namespace SlimeyMod.HenryModules.Survivors
 {
     internal abstract class SurvivorBase
     {
@@ -42,20 +42,20 @@ namespace HenryMod.Modules.Survivors
         internal virtual void InitializeCharacter()
         {
             // this creates a config option to enable the character- feel free to remove if the character is the only thing in your mod
-            characterEnabled = Modules.Config.CharacterEnableConfig(bodyName);
+            characterEnabled = HenryModules.Config.CharacterEnableConfig(bodyName);
 
             if (characterEnabled.Value)
             {
                 InitializeUnlockables();
 
-                bodyPrefab = Modules.Prefabs.CreatePrefab(bodyName + "Body", "mdl" + bodyName, bodyInfo);
+                bodyPrefab = HenryModules.Prefabs.CreatePrefab(bodyName + "Body", "mdl" + bodyName, bodyInfo);
                 bodyPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(characterMainState);
 
-                Modules.Prefabs.SetupCharacterModel(bodyPrefab, customRendererInfos, mainRendererIndex);
+                HenryModules.Prefabs.SetupCharacterModel(bodyPrefab, customRendererInfos, mainRendererIndex);
 
-                displayPrefab = Modules.Prefabs.CreateDisplayPrefab(bodyName + "Display", bodyPrefab, bodyInfo);
+                displayPrefab = HenryModules.Prefabs.CreateDisplayPrefab(bodyName + "Display", bodyPrefab, bodyInfo);
 
-                Modules.Prefabs.RegisterNewSurvivor(bodyPrefab, displayPrefab, Color.grey, bodyName.ToUpper(), characterUnlockableDef, sortPosition);
+                HenryModules.Prefabs.RegisterNewSurvivor(bodyPrefab, displayPrefab, Color.grey, bodyName.ToUpper(), characterUnlockableDef, sortPosition);
 
                 InitializeHitboxes();
                 InitializeSkills();
@@ -84,7 +84,7 @@ namespace HenryMod.Modules.Survivors
 
         internal virtual void InitializeDoppelganger()
         {
-            Modules.Prefabs.CreateGenericDoppelganger(instance.bodyPrefab, bodyName + "MonsterMaster", "Merc");
+            HenryModules.Prefabs.CreateGenericDoppelganger(instance.bodyPrefab, bodyName + "MonsterMaster", "Merc");
         }
 
         internal virtual void InitializeItemDisplays()
