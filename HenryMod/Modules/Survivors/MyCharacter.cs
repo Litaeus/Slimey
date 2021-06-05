@@ -88,6 +88,7 @@ namespace HenryMod.Modules.Survivors
 
             #region Primary
             Modules.Skills.AddPrimarySkill(bodyPrefab, Modules.Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)), "Weapon", prefix + "_HENRY_BODY_PRIMARY_SLASH_NAME", prefix + "_HENRY_BODY_PRIMARY_SLASH_DESCRIPTION", Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"), true));
+            Skills.AddPrimarySkill(bodyPrefab, Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.Slimey.Slimeshot)), "Weapon", prefix + "_SLIMEY_SLIMESHOT_NAME", prefix + "_SLIMEY_SLIMESHOT_DESC", SkillStates.Slimey.Slimeshot.skillIconSprite, true));
             #endregion
 
             #region Secondary

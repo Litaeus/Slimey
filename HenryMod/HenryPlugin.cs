@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using HenryMod.Modules.Survivors;
+using R2API;
 using R2API.Utils;
 using RoR2;
 using System.Collections.Generic;
@@ -14,12 +15,7 @@ namespace HenryMod
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]
-    [R2APISubmoduleDependency(new string[]
-    {
-        "PrefabAPI",
-        "LanguageAPI",
-        "SoundAPI",
-    })]
+    [R2APISubmoduleDependency(nameof(PrefabAPI), nameof(LanguageAPI), nameof(SoundAPI))]
 
     public class HenryPlugin : BaseUnityPlugin
     {
