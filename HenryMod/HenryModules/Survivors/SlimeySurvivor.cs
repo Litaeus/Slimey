@@ -117,7 +117,34 @@ namespace SlimeyMod.HenryModules.Survivors
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
 
-            HenryModules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
+            HenryModules.Skills.AddSecondarySkill(bodyPrefab, shootSkillDef);
+
+            SkillDef monchSkillDef = Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_SLIMEY_MONCH_NAME",
+                skillNameToken = prefix + "_SLIMEY_MONCH_NAME",
+                skillDescriptionToken = prefix + "_SLIMEY_MONCH_DESC",
+                skillIcon = Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"), // Replace this when the art is created
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Slimey.MonchMelee)),
+                activationStateMachineName = "Body",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f, // One second cooldown
+                beginSkillCooldownOnSkillEnd = true,
+                canceledFromSprinting = true,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
+
+            Skills.AddSecondarySkill(bodyPrefab, monchSkillDef);
             #endregion
 
             #region Utility
