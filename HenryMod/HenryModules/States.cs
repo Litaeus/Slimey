@@ -16,7 +16,7 @@ namespace SlimeyMod.HenryModules
 
             entityStates.Add(typeof(Shoot));
 
-            entityStates.Add(typeof(Roll));
+            entityStates.Add(typeof(roll));
 
             entityStates.Add(typeof(ThrowBomb));
         }
