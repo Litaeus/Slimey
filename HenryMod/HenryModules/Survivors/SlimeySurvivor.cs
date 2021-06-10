@@ -173,6 +173,31 @@ namespace SlimeyMod.HenryModules.Survivors
             });
 
             HenryModules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
+
+            SkillDef slingshotSkillDef = Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "Slingshot",
+                skillNameToken = prefix + "_SLIMEY_UTILITY_SLINGSHOT_NAME",
+                skillDescriptionToken = prefix + "Launch forward and cause a small explosion around you from the clap of your asscheeks",
+                skillIcon = Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Slimey.Slingshot)),
+                activationStateMachineName = "Body",
+                baseMaxStock = 1,
+                baseRechargeInterval = 4f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = true,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = false,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1
+            });
+            HenryModules.Skills.AddUtilitySkills(bodyPrefab, slingshotSkillDef);
             #endregion
 
             #region Special
