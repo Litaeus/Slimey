@@ -114,7 +114,7 @@ namespace SlimeyMod.SkillStates
                 falloffModel = BlastAttack.FalloffModel.None,
                 impactEffect = EffectIndex.Invalid, // Here's where the visual effect would play if there was one
                 losType = BlastAttack.LoSType.None,
-                position = lookRay.transform.position.y(1f), // The blast will be centered 1 units down the aimRay
+                position = lookRay.coreposistion(1f), // The blast will be centered 1 units down the aimRay
                 procChainMask = default(ProcChainMask),
                 procCoefficient = procCoefficient,
                 radius = 0.5f, // If this matches the position distance, then it can hit directly in front of you
