@@ -1,8 +1,12 @@
 ﻿using EntityStates;
+using IL.RoR2;
+using On.RoR2;
 using RoR2;
+using SlimeyMod.HenryModules;
 using System;
 using UnityEngine;
-using UnityEngine.Networking;
+using BlastAttack = RoR2.BlastAttack;
+using ProcChainMask = RoR2.ProcChainMask;
 
 namespace SlimeyMod.SkillStates
 {
@@ -51,22 +55,14 @@ namespace SlimeyMod.SkillStates
             Vector3 b = base.characterMotor ? base.characterMotor.velocity : Vector3.zero;
             previousPosition = base.transform.position - b;
 
-            base.PlayAnimation("FullBody, Override", "Slingshot", "Slingshot.playbackRate", Slingshot.duration);
-            Util.PlaySound(Slingshot.dodgeSoundString, base.gameObject);
 
-            if (NetworkServer.active)
-            {
-                base.characterBody.AddTimedBuff(HenryModules.Buffs.armorBuff, 3f * Slingshot.duration);
-                base.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * Slingshot.duration);
-            }
-        }
 
-        private void RecalculateSlingshotSpeed()
-        {
-            SlingshotSpeed = moveSpeedStat * Mathf.Lerp(Slingshot.initialSpeedCoefficient, Slingshot.finalSpeedCoefficient, base.fixedAge / Slingshot.duration);
-        }
 
-      
+
+             void RecalculateSlingshotSpeed() => SlingshotSpeed = moveSpeedStat * Mathf.Lerp(Slingshot.initialSpeedCoefficient, Slingshot.finalSpeedCoefficient, base.fixedAge / Slingshot.duration); }
+
+
+
 
         public override void FixedUpdate()
         {
@@ -97,9 +93,14 @@ namespace SlimeyMod.SkillStates
             }
         }
 
+        private void RecalculateSlingshotSpeed()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void OnExit()
         {
-            new BlastAttack
+            BlastAttack blastAttack = new BlastAttack
             {
                 attacker = base.gameObject,
                 attackerFiltering = AttackerFiltering.NeverHit, // Disable friendly/self-damage if Chaos is active
@@ -112,31 +113,15 @@ namespace SlimeyMod.SkillStates
                 falloffModel = BlastAttack.FalloffModel.None,
                 impactEffect = EffectIndex.Invalid, // Here's where the visual effect would play if there was one
                 losType = BlastAttack.LoSType.None,
-                position = lookRay.GetPoint(5f), // The blast will be centered 1 units down the aimRay
+                position = lookRay.GetTeam(1f), // The blast will be centered 1 units down the aimRay
                 procChainMask = default(ProcChainMask),
                 procCoefficient = procCoefficient,
                 radius = 0.5f, // If this matches the position distance, then it can hit directly in front of you
-                teamIndex = base.GetTeam()
-            if (base.cameraTargetParams)
-            {
-                base.cameraTargetParams.fovOverride = -1f;
-            }
-
-            base.OnExit();
-
-            base.characterMotor.disableAirControlUntilCollision = false;
+                teamIndex = base.GetTeam();
         }
-
-        public override void OnSerialize(NetworkWriter writer)
-        {
-            base.OnSerialize(writer);
-            writer.Write(forwardDirection);
+            
         }
-
-        public override void OnDeserialize(NetworkReader reader)
-        {
-            base.OnDeserialize(reader);
-            forwardDirection = reader.ReadVector3();
-        }
-    }
 }
+ 
+        
+        
